@@ -1,0 +1,16 @@
+#
+# robots.txt for dev.w3.org
+#
+# $Id$
+#
+
+# disallow all access to /cvsweb until we refine the others further below
+
+User-agent: *
+Disallow: /cvsweb
+Disallow: *configure.diff 
+Disallow: *configure?annotate
+Disallow: *configure?only_with_tag
+Disallow: *?r
+Disallow: *LOCKS
+

@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv=Content-Type>
+    <title>CSS Flexible Box Layout Module</title>
+    <!--
+	<link href="http://purl.org/dc/terms/" rel="schema.dcterms">
+	<link href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright" rel="dcterms.rights">
+	-->
+    <meta content="CSS Flexible Box Layout Module" name=dcterms.title>
+    <meta content=text name=dcterms.type>
+    <meta content=2013-02-21 name=dcterms.issued>
+    <meta content="http://dev.w3.org/csswg/css3-flexbox/" name=dcterms.creator>
+    <meta content=W3C name=dcterms.publisher>
+    <meta content="http://dev.w3.org/csswg/css3-flexbox/"
+	  name=dcterms.identifier>
+    <link href="../default.css" rel=stylesheet
+	  type="text/css">
+    <link href="../csslogo.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="http://www.w3.org/StyleSheets/TR/W3C-ED" rel=stylesheet
+	  type="text/css">
+    <style>
+      code.one-line { white-space: pre; }
+      .code-and-figure {
+      display: table;
+      margin: 0 auto;
+      border-spacing: 1em;
+      }
+      .code-and-figure > div {
+      display: table-cell;
+      vertical-align: middle;
+      }
+      :not(code) var { font-style: normal; color: #005A9C; }
+      i { font-style: normal; }
+      ol[start="0"] { counter-reset: list -1; }
+      ol[start="0"],
+      ol.continue { list-style: none; }
+      ol[start="0"] > li,
+      ol.continue > li { position: relative; counter-increment: list; }
+      ol[start="0"] > li::before,
+      ol.continue > li::before { content: counter(list) "."; position: absolute; left: -4.5em; width: 4em; text-align: right; }
+      .compact, .compact li {
+      margin-top: 0;
+      margin-bottom: 0;
+      }
+      /* Overview catalog example */
+      #overview-example {
+      display:table;
+      margin: 0 auto 1em;
+      border-spacing: .5em 0;
+      min-width: 672px;
+      }
+      #overview-example > .col {
+      display: table-column;
+      background: hsl(60,100%,90%);
+      }
+      #overview-example > .desc {
+      display: table-cell;
+      vertical-align: top;
+      width: 300px;
+      padding: 1em 1em 0;
+      text-align: left;
+      border: thick solid hsl(60,80%,50%);
+      border-radius: 1em 1em 0 0;
+      border-bottom: none;
+      }
+      #overview-example > .desc > img {
+      margin: 0 auto;
+      display: block;
+      }
+      #overview-example > .desc > h1 {
+      background: transparent;
+      }
+      #overview-example > .buttons {
+      display: table-row;
+      }
+      #overview-example > .buttons > div {
+      display: table-cell;
+      border: thick solid hsl(60,80%,50%);
+      border-radius: 0 0 1em 1em;
+      border-top: none;
+      text-align: center;
+      }
+      #overview-example button {
+      background-color: hsl(120,100%,40%);
+      border: medium inset hsl(120,70%,40%);
+      border-radius: 1em;
+      padding: .5em;
+      font-weight: bold;
+      color: white;
+      font-size: 1.6em;
+      cursor: pointer;
+      width: 90%;
+      margin: 1em auto;
+      }
+      /* Visibility: Collapse example */
+      #visibility-collapse-example {
+      display: table;
+      width: 100%;
+      box-shadow: 3px 3px 10px #333;
+      }
+      #visibility-collapse-example > article,
+      #visibility-collapse-example > nav {
+      display: table-cell;
+      }
+      #visibility-collapse-example > article {
+      width: 100%;
+      background: white;
+      }
+      #visibility-collapse-example ul,
+      #visibility-collapse-example li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      }
+      #visibility-collapse-example > nav > ul {
+      background: #444;
+      border-radius: 0.5em;
+      padding: 0.075em;
+      }
+      #visibility-collapse-example li {
+      padding: 0 0.5em;
+      background: #ddd;
+      color: black;
+      border-radius: 0.40em;
+      border: #444 solid 0.075em;
+      }
+      #visibility-collapse-example li li {
+      background: #444;
+      color: white;
+      margin: 0 -0.5em;
+      border-radius: 0;
+      }
+      #visibility-collapse-example li li:first-child {
+      border-radius: 0.375em 0.375em 0 0;
+      }
+      #visibility-collapse-example a {
+      background: transparent;
+      color: inherit;
+      }
+      #visibility-collapse-example > nav > ul > li:target,
+      #visibility-collapse-example > nav > ul > li:hover {
+      background: #888;
+      color: white;
+      }
+      #visibility-collapse-example > nav > ul > li:not(:target):not(:hover) > ul {
+      height: 0;
+      overflow: hidden;
+      }
+      #auto-bar {
+      overflow: hidden;
+      padding: .25em 1em;
+      background: #ddd;
+      list-style: none;
+      margin: 0;
+      border-radius: .3em;
+      }
+      #auto-bar > li {
+      float: left;
+      color: black;
+      margin: 0;
+      }
+      #auto-bar > li:first-child:after,
+      #auto-bar > li:first-child + li:after {
+      content: " |  ";
+      white-space: pre;
+      }
+      #auto-bar > li > a {
+      display: inline-block;
+		padding: 0 .25em;
+		border-radius: .3em;
+	}
+	#auto-bar > li > a:not(:hover):not(:focus) {
+		text-decoration: none;
+	}
+	#auto-bar > li > a:hover {
+		color: #ddd;
+		background: #444;
+	}
+	#auto-bar > #login { float: right; }
+
+	.cross-auto-figure > div {
+		margin: 0 auto;
+		width: 70px;
+		background: #888;
+		padding: 0 .5em;
+		border-radius: 1em;
+		border: 1px solid transparent;
+	}
+	.cross-auto-figure > div > div {
+		border-spacing: 0;
+		display: table;
+		background: #ddd;
+		color: black;
+		text-align: center;
+		margin: .5em auto;
+		padding: .5em;
+		border-radius: .5em;
+	}
+    .axis { color: hsl(  0,80%,40%); }
+    .side { color: hsl(240,80%,50%); }
+    .size { color: hsl(120,80%,30%); }
+	</style>
+ <body class=h-entry>
+  <div class=head> <!--begin-logo-->
+   <p><a href="http://www.w3.org/"><img alt=W3C height=48
+    src="http://www.w3.org/Icons/w3c_home" width=72></a> <!--end-logo-->
+     
+   <h1 class=p-name id=head-box-flexible>CSS 可伸缩框布局模块</h1>
+   <h2 class="no-num no-toc" id=w3c-working>Editor's Draft, <time
+    class=dt-updated datetime=20130221>21 February 2013</time></h2>
+   <dl>
+    <dt>This version:
+     <!--<dd><a class="u-url" href="http://dev.w3.org/csswg/css3-flexbox/">http://www.w3.org/TR/2013/CR-css3-flexbox-20130221/</a>-->
+    <dd><a class=u-url
+     href="index.html">http://dev.w3.org/csswg/css3-flexbox/</a>
+    <dt>Latest version:
+     <!--<dd><a href="http://www.w3.org/TR/css3-flexbox/">http://www.w3.org/TR/css3-flexbox/</a>-->
+    <dd><a
+     href="http://www.w3.org/TR/css3-flexbox/">http://www.w3.org/TR/css3-flexbox/</a>
+    <dt>Editor's Draft:
+    <dd><a
+     href="index.html">http://dev.w3.org/csswg/css3-flexbox/</a>
+    <dt>Previous version:
+    <dd><a href="http://www.w3.org/TR/2012/CR-css3-flexbox-20120921/"
+     rel=previous>http://www.w3.org/TR/2012/CR-css3-flexbox-20120921/</a>
+    <dt>Issues List:
+    <dd><a
+     href="https://www.w3.org/Bugs/Public/buglist.cgi?product=CSS&amp;component=Flexbox&amp;resolution=---">Bugzilla
+     Bugs for Flexbox</a>
+    <dt>Discussion:
+    <dd><a
+     href="http://lists.w3.org/Archives/Public/www-style/">www-style@w3.org</a>
+     with subject line "<code>[css3-flexbox] …message topic…</code>"
+    <dt>Editors:
+    <dd class="p-author h-card vcard"><a class="p-name fn u-url url"
+     href="http://www.xanthir.com/contact" rel=author>Tab Atkins Jr.</a>,
+     <span class="p-org org">Google Inc.</span>
+    <dd class="p-author h-card vcard"><a class="p-name fn u-url url"
+     href="http://fantasai.inkedblade.net/contact" rel=author>Elika J.
+     Etemad</a>, <span class="p-org org">Mozilla</span>
+    <dd class="p-author h-card vcard"><span class="p-name fn">Rossen
+     Atanassov</span>, <span class="p-org org">Microsoft Corporation</span>,
+     <a class="u-email email"
+     href="mailto:ratan@microsoft.com">ratan@microsoft.com</a>
+    <dt>Authors and former editors:
+    <dd class="p-author h-card"><span class=p-name>Alex Mogilevsky</span>,
+     <span class=p-org>Microsoft Corporation</span>, <a class=u-email
+     href="mailto:alexmog@microsoft.com">alexmog@microsoft.com</a>
+    <dd class="p-author h-card"><span class=p-name>L. David Baron</span>,
+     <span class=p-org>Mozilla Corporation</span>, <a class=u-email
+     href="mailto:dbaron@dbaron.org">dbaron@dbaron.org</a>
+    <dd class="p-author h-card"><span class=p-name>Neil Deakin</span>, <span
+     class=p-org>Mozilla Corporation</span>, <a class=u-email
+     href="mailto:enndeakin@gmail.com">enndeakin@gmail.com</a>
+    <dd class="p-author h-card"><span class=p-name>Ian Hickson</span>,
+     formerly of Opera Software, <a class=u-email
+     href="mailto:ian@hixie.ch">ian@hixie.ch</a>
+    <dd class="p-author h-card"><span class=p-name>David Hyatt</span>,
+     formerly of Netscape Corporation, <a class=u-email
+     href="mailto:hyatt@apple.com">hyatt@apple.com</a>
+   </dl>
+   <!--begin-copyright-->
+   <p class=copyright><a
+    href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright"
+    rel=license>Copyright</a> © 2013 <a href="http://www.w3.org/"><abbr
+    title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a
+    href="http://www.csail.mit.edu/"><abbr
+    title="Massachusetts Institute of Technology">MIT</abbr></a>, <a
+    href="http://www.ercim.eu/"><abbr
+    title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>,
+    <a href="http://www.keio.ac.jp/">Keio</a>, <a
+    href="http://ev.buaa.edu.cn/">Beihang</a>), All Rights Reserved. W3C <a
+    href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+    <a
+    href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a>
+    and <a
+    href="http://www.w3.org/Consortium/Legal/copyright-documents">document
+    use</a> rules apply.</p>
+   <!--end-copyright-->
+   <hr title="Separator for header">
+  </div>
+  <h2 class="no-num no-toc" id=abstract> 概要</h2>
+  <p> <span class=p-summary> 这篇规范描述的是一种为用户界面设计优而化了的盒式模型. 在可伸缩的的布局模型中,可伸缩容器的子模块可以放置在任意方向,并且可以让他们的大小充满那些没有用到的空间或者缩小一些而避免内容溢出父容器。</span> 我们可以很方便的对子元素进行水平或者竖直的排版,或者通过层级的混合这些盒子 (水平套嵌竖直或者竖直套嵌水平) 可以很方便的构建两个维度的布局.
+  <h2 class="no-num no-toc" id=status>文档状态</h2>
+  <!--begin-status-->
+  <p>这篇文档是一篇公开的预案.发布是为了方便讨论,随时都有可能改变.尽管这篇文档发布出来了,但这并不表示W3C能保证这会实现.除非是在发展中的项目,否则请不要引用这份文档.
+  <p>The (<a
+   href="http://lists.w3.org/Archives/Public/www-style/">archived</a>) 公共邮箱列表<a
+   href="mailto:www-style@w3.org?Subject=%5Bcss3-flexbox%5D%20PUT%20SUBJECT%20HERE">
+   www-style@w3.org</a> (详见 <a
+   href="http://www.w3.org/Mail/Request">规章</a>)来具体讨论规范在发邮件的时候,请在标题说明
+   “css3-flexbox”,最好像这样::
+   “[<!---->css3-flexbox<!---->] <em>…简单的介绍…</em>”
+  <p>这个文档有 <a href="http://dev.w3.org/Style/CSS/members">CSS
+   工作小组</a> (<a href="http://dev.w3.org/Style/">样式活动</a>的一部分).
+  <p>这篇文档是由小组在 <a
+   href="http://dev.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 W3C 专利政策</a>下进行修改的. 
+    W3C 维护了一个<a href="http://dev.w3.org/2004/01/pp-impl/32061/status"
+   rel=disclosure>公共的完整的专利列表</a>来让这些技术产生联系;这些页面同样的也包涵了一些关于专利个人的专利
+    ,但这些专利都有<a
+   href="http://dev.w3.org/Consortium/Patent-Policy-20040205/#def-essential">必要的声明</a> 
+    也就是说必须包涵根据<a
+   href="http://dev.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">
+   W3C 专利政策第六章</a>.</p>所描述的信息
+  <!--end-status-->
+  <p>CR阶段至少要持续到20 March 2013.在这段公开时间,没有任何测试和实现被公开.
+   他们会在 <a href="http://dev.w3.org/Style/CSS/Test/">CSS 测试页面</a>被公开.具体看 <a href="index.html#cr-exit-criteria">“CR exit
+   criteria”</a> 章节的详细内容.
+  <p>在 <a href="index.html#changes">“Changes”</a>章节,描述了在草稿阶段那些对这篇规范所进行的修改 
+  <p> 下面这些特性有修改的风险:
+  <ul>
+   <li>对于绝对定位的可伸缩怨毒的静态位置的计算.
+  </ul>
+  <h2 class="no-num no-toc" id=table>目录</h2>
+  <!--begin-toc-->
+  <ul class=toc>
+   <li><a href="index.html#intro"><span class=secno>1. </span> 简介</a>
+    <ul class=toc>
+     <li><a href="index.html#overview"><span class=secno>1.1. </span> 概览</a>
+     <li><a href="index.html#placement"><span class=secno>1.2. </span> 模块操作
+      </a>
+     <li><a href="index.html#values"><span class=secno>1.3. </span> 值</a>
+    </ul>
+   <li><a href="index.html#box-model"><span class=secno>2. </span> 可伸缩布局的盒式模型和术语</a>
+   <li><a href="index.html#flex-containers"><span class=secno>3. </span> 可伸缩容器的
+: ‘<code class=css>flex</code>’属性 和 ‘<code
+    class=css>inline-flex</code>’属性和 ‘<code class=property>display</code>’属性的值
+    </a>
+   <li><a href="index.html#flex-items"><span class=secno>4. </span> 可伸缩项</a>
+    <ul class=toc>
+     <li><a href="index.html#abspos-items"><span class=secno>4.1. </span>
+      绝对定位的可伸缩子元素</a>
+     <li><a href="index.html#item-margins"><span class=secno>4.2. </span> 可伸缩边距
+      </a>
+     <li><a href="index.html#painting"><span class=secno>4.3. </span> 可伸缩元素的绘制</a>
+     <li><a href="index.html#visibility-collapse"><span class=secno>4.4. </span>
+      折叠的项</a>
+     <li><a href="index.html#min-size-auto"><span class=secno>4.5. </span> 可伸缩项目的隐式最小值</a>
+    </ul>
+   <li><a href="index.html#flow-order"><span class=secno>5. </span> 排序和方向</a>
+    <ul class=toc>
+     <li><a href="index.html#flex-direction-property"><span class=secno>5.1. </span>
+      可伸缩流动的方向: ‘<code
+      class=property>flex-direction</code>’ 属性</a>
+     <li><a href="index.html#flex-wrap-property"><span class=secno>5.2. </span> 可伸缩行的包裹: 
+	 ‘<code class=property>flex-wrap</code>’属性
+      </a>
+     <li><a href="index.html#flex-flow-property"><span class=secno>5.3. </span> 可伸缩方向的包裹:  ‘<code class=property>flex-flow</code>’的缩写
+      </a>
+     <li><a href="index.html#order-property"><span class=secno>5.4. </span> 显示顺序: 
+	 ‘<code class=property>order</code>’ 属性</a>
+      <ul class=toc>
+       <li><a href="index.html#order-accessibility"><span class=secno>5.4.1. </span>
+        渲染顺序和易用性</a>
+      </ul>
+    </ul>
+   <li><a href="index.html#flex-lines"><span class=secno>6. </span> Flex Lines</a>
+   <li><a href="index.html#flexibility"><span class=secno>7. </span> Flexibility</a>
+    <ul class=toc>
+     <li><a href="index.html#flex-property"><span class=secno>7.1. </span> The ‘<code
+      class=property>flex</code>’ Shorthand</a>
+     <li><a href="index.html#flex-common"><span class=secno>7.2. </span> Common Values
+      of ‘<code class=property>flex</code>’</a>
+     <li><a href="index.html#flex-components"><span class=secno>7.3. </span> Components
+      of Flexibility</a>
+      <ul class=toc>
+       <li><a href="index.html#flex-grow-property"><span class=secno>7.3.1. </span> The
+        ‘<code class=property>flex-grow</code>’ property</a>
+       <li><a href="index.html#flex-shrink-property"><span class=secno>7.3.2. </span>
+        The ‘<code class=property>flex-shrink</code>’ property</a>
+       <li><a href="index.html#flex-basis-property"><span class=secno>7.3.3. </span>
+        The ‘<code class=property>flex-basis</code>’ property</a>
+      </ul>
+    </ul>
+   <li><a href="index.html#alignment"><span class=secno>8. </span> Alignment</a>
+    <ul class=toc>
+     <li><a href="index.html#auto-margins"><span class=secno>8.1. </span> Aligning with
+      ‘<code class=css>auto</code>’ margins</a>
+     <li><a href="index.html#justify-content-property"><span class=secno>8.2. </span>
+      Axis Alignment: the ‘<code class=property>justify-content</code>’
+      property</a>
+     <li><a href="index.html#align-items-property"><span class=secno>8.3. </span>
+      Cross-axis Alignment: the ‘<code class=property>align-items</code>’
+      and ‘<code class=property>align-self</code>’ properties</a>
+     <li><a href="index.html#align-content-property"><span class=secno>8.4. </span>
+      Packing Flex Lines: the ‘<code class=property>align-content</code>’
+      property</a>
+     <li><a href="index.html#flex-baselines"><span class=secno>8.5. </span> Flex
+      Baselines</a>
+    </ul>
+   <li><a href="index.html#layout-algorithm"><span class=secno>9. </span> Flex Layout
+    Algorithm</a>
+    <ul class=toc>
+     <li><a href="index.html#box-manip"><span class=secno>9.1. </span> Initial
+      Setup</a>
+     <li><a href="index.html#line-sizing"><span class=secno>9.2. </span> Line Length
+      Determination</a>
+     <li><a href="index.html#main-sizing"><span class=secno>9.3. </span> Main Size
+      Determination</a>
+     <li><a href="index.html#cross-sizing"><span class=secno>9.4. </span> Cross size
+      determination</a>
+     <li><a href="index.html#main-alignment"><span class=secno>9.5. </span> Main-Axis
+      Alignment</a>
+     <li><a href="index.html#cross-alignment"><span class=secno>9.6. </span> Cross-Axis
+      Alignment</a>
+     <li><a href="index.html#resolve-flexible-lengths"><span class=secno>9.7. </span>
+      Resolving Flexible Lengths</a>
+    </ul>
+   <li><a href="index.html#pagination"><span class=secno>10. </span> Fragmenting Flex
+    Layout</a>
+    <ul class=toc>
+     <li><a href="index.html#pagination-algo"><span class=secno>10.1. </span> Sample
+      Flex Fragmentation Algorithm</a>
+    </ul>
+   <li><a href="index.html#conformance"><span class=secno>11. </span> Conformance</a>
+    <ul class=toc>
+     <li><a href="index.html#conventions"><span class=secno>11.1. </span> Document
+      conventions</a>
+     <li><a href="index.html#conformance-classes"><span class=secno>11.2. </span>
+      Conformance classes</a>
+     <li><a href="index.html#partial"><span class=secno>11.3. </span> Partial
+      implementations</a>
+     <li><a href="index.html#experimental"><span class=secno>11.4. </span> Experimental
+      implementations</a>
+     <li><a href="index.html#testing"><span class=secno>11.5. </span> Non-experimental
+      implementations</a>
+     <li><a href="index.html#cr-exit-criteria"><span class=secno>11.6. </span> CR exit
+      criteria</a>
+    </ul>
+   <li class=no-num><a href="index.html#acknowledgments">Acknowledgments</a>
+   <li class=no-num><a href="index.html#references">References</a>
+    <ul class=toc>
+     <li class=no-num><a href="index.html#normative">Normative references</a>
+     <li class=no-num><a href="index.html#informative">Other references</a>
+    </ul>
+   <li class=no-num><a href="index.html#changes">Changes</a>
+   <li class=no-num><a href="index.html#property">Property index</a>
+   <li class=no-num><a href="index.html#index">Index</a>
+  </ul>
+  <!--end-toc-->
+  <h2 id=intro><span class=secno>1. </span> Introduction</h2>
+  <p><em>本章节不具规范性.</em>
+  <p> CSS 2.1 定义了4种布局模式 — 那些通过他们同毗邻,祖先层级的关系来确定盒子的大小和位置的算法：
+  <ul class=compact>
+   <li>块布局 , 用来排版文档
+   <li>内联布局, 用来排版文字
+   <li>表格布局, 用来把数据排列成表格
+   <li>定位布局, 用来给那些通过指定位置而不受其他元素影响的布局。
+  </ul>
+  <p> 这个模型引入了一种新的布局模式<dfn id=flex-layout>可伸缩布局</dfn>, 一种用来排版一些更加复杂的应用.
+  <h3 id=overview><span class=secno>1.1. </span> 概览</h3>
+  <p><em>本章节不具规范性.</em>
+  <p> 可伸缩布局从表面上来看很像块布局. 但它去除了很多文本/段落居中相关的属性, 比如 <a
+   href="http://www.w3.org/TR/CSS21/visuren.html#floats">float</a> 和<a
+   href="http://www.w3.org/TR/css3-multicol/">columns</a>. 但相应的我们获得了一些对处理空白以及那些webapp和复杂网页中常用布局非常有价值的特性.一个可伸缩容器有这些特性:
+   <ul>
+    <li>能够以任意的<a href="index.html#flex-direction-property">流向</a> (朝左，朝右，朝下，甚至朝上!)排版
+    <li> 能够在样式层对他们的顺序进行 <a
+    href="index.html#flex-flow-row-reverse">反向</a> or <a
+    href="index.html#order-property">排序</a> (i.e., 视觉上的顺序可以和源代码(译者注:HTML)/阅读的先后顺序无关.)
+   <li> 可以线性的排列在一个 (<a href="index.html#main-axis"><i
+    title="main axis">纵</i></a>) 轴上或 <a
+    href="index.html#flex-wrap-property">包裹</a> 好几行到次(<a href="index.html#cross-axis"><i title="cross axis">横</i></a>)
+    轴上去
+   <li> 可以 <a href="index.html#flexibility">“伸缩” 他们的大小</a> 来处理剩余的空白
+   <li> 可以根据他们的容器和相互之前的关系来<a href="index.html#alignment">对齐</a> 
+   <li> 可以动态的 沿着<a href="index.html#main-axis"><i>main axis</i></a><a href="index.html#visibility-collapse">展开</a> 或者收起并且保持容器的 <a href="index.html#cross-size"><i>cross-size</i></a>
+  </ul>
+  <div class=example>
+   <p>这里有个例子,一个拥有标题,图片,描述,购买按钮的目录.设计这的目的是每一个条目有相同的总大小,照片放在文字的上方,按钮在底部对齐,不管物品的描述到底有多长.可伸缩布局方式在各个方面都让这样的设计变得容易实现:
+   <ul>
+    <li> 这个目录用可伸缩布局来把每个条目水平排列,这是为了确定这行里的东西都有同样的高度,每个条目都没设计成了一个柱形可伸缩容器,然后把里面的内容垂直排布.
+    <li> 在每个条目里面,源文档内容都是按照逻辑顺序排列的,也就是先是标题,接下来是描述和图片. 这样提供了合理的阅读和无css浏览器渲染的顺序.但为了有更吸引人的视觉效果,  ‘<a
+     href="index.html#order"><code class=property>order</code></a>’ 属性被用来把图片拉到内容的顶端, 而且 ‘<a
+     href="index.html#align-self"><code class=property>align-self</code></a>’属性则让它水平居中.
+    <li>用一个 <a href="index.html#auto-margins">‘<code class=css>auto</code>’
+     margin</a>属性在购买按钮上,让它排列在条目的底部,不管条目的描述有多高.
+   </ul>
+   <pre>
+&lt;style>
+#deals {
+	display: flex;        /* Flex layout so items <a
+    href="index.html#align-self"
+    title="Flex items stretch by default.">have equal height</a>  */
+	flex-flow: row wrap;  /* <a
+    href="index.html#flex-flow-property">Allow items to wrap into multiple lines</a> */
+}
+.sale-item { 
+	display: flex;        /* Lay out each item using flex layout */
+	flex-flow: column;    /* <a
+    href="index.html#flex-flow-property">Lay out item's contents vertically</a>  */
+}
+.sale-item > img { 
+	order: -1;            /* <a
+    href="index.html#order-property">Shift image before other content (in visual order)</a> */
+	align-self: center;   /* <a
+    href="index.html#align-self">Center the image cross-wise (horizontally)</a>         */
+}
+.sale-item > button {
+	margin-top: auto;     /* <a
+    href="index.html#auto-margins">Auto top margin pushes button to bottom</a> */
+}
+&lt;/style></pre>
+   <pre>
+&lt;section id='deals'>
+  &lt;section class='sale-item'>
+    &lt;h1>Computer Starter Kit&lt;/h1>
+    &lt;p>This is the best computer money can buy, if you don't have much money.
+    &lt;ul>
+      &lt;li>Computer
+      &lt;li>Monitor
+      &lt;li>Keyboard
+      &lt;li>Mouse
+    &lt;/ul>
+    &lt;img src='images/computer.jpg'
+         alt='You get: a white computer with matching peripherals.'>
+    &lt;button>BUY NOW&lt;/button>
+  &lt;/section>
+  &lt;section class='sale-item'>
+    …
+  &lt;/section>
+  …
+&lt;/section></pre>
+   <figure>
+   <div id=overview-example>
+    <div class=col></div>
+    <div class=col></div>
+    <div class=desc> <img
+     alt="You get: a white computer with matching keyboard and monitor."
+     src="images/computer.jpg">
+     <h1 style="font-size: 1.4em;">Computer Starter Kit</h1>
+     <p> This is the best computer money can buy, if you don't have much
+      money.
+     <ul>
+      <li>Computer
+      <li>Monitor
+      <li>Keyboard
+      <li>Mouse
+     </ul>
+    </div>
+    <div class=desc> <img alt="You get: beautiful ASCII art."
+     src="images/printer.png">
+     <h1 style="font-size: 1.4em;">Printer</h1>
+     <p> Only capable of printing ASCII art.
+     <ul>
+      <li>Paper and ink not included.
+     </ul>
+    </div>
+    <div class=buttons>
+     <div><button>购买</button></div>
+     <div><button>购买</button></div>
+    </div>
+   </div>
+   <figcaption> An example rendering of the code above. </figcaption>
+   </figure></div>
+  <h3 id=placement><span class=secno>1.2. </span> Module interactions</h3>
+  <p> 这个模块扩展了 ‘<code
+   class=property>display</code>’ 属性的定义 <a href="index.html#CSS21"
+   rel=biblioentry>[CSS21]<!--{{!CSS21}}--></a>, 添加了新的块状层级和内联层级的类型,并且定义了一种新的格式化上下文以及一些属性来控制布局. 并且定义了‘<code class=property>min-width</code>’属性和‘<code
+   class=property>min-height</code>’属性的初始值.所有在这个模块里定义的属性都不会应用于‘<code class=css>::first-line</code>’ 和
+   ‘<code class=css>::first-letter</code>’ 伪元素.
+  <h3 id=values><span class=secno>1.3. </span> 值</h3>
+  <p> 这份规范服从<a
+   href="http://www.w3.org/TR/CSS21/about.html#property-defs">CSS 属性定义规范</a> ,来自 <a href="index.html#CSS21"
+   rel=biblioentry>[CSS21]<!--{{!CSS21}}--></a>. 那些在这个规范里没有被定义的值的类型,都在CSS Level 2 Revision 1 中定义了 <a
+   href="index.html#CSS21" rel=biblioentry>[CSS21]<!--{{!CSS21}}--></a>. 其他的CSS模块也许可以扩展这些值的定义: 比如说<a
+   href="index.html#CSS3VAL" rel=biblioentry>[CSS3VAL]<!--{{CSS3VAL}}--></a>, 在这篇规范里,当和这个模块结合的时候
+   <var>&lt;length&gt;</var>  值类型的定义就被被扩展了.
+  <p>除了和属性相关的值都被列在对应的定义里外,在这篇规范里定义的所有的属性都能够接受
+   <a
+   href="http://www.w3.org/TR/CSS21/cascade.html#value-def-inherit">‘<code
+   class=css>inherit</code>’</a> 关键字作为他们的值. 为了方便阅读之后不会再声明这一点 
+  <h2 id=box-model><span class=secno>2. </span> 可伸缩盒式模型和术语</h2>
+  <p> 当一个元素拥有 ‘<code class=css>display:flex</code>’ 或者 ‘<code
+   class=css>display:inline-flex</code>’ 那么它就是一个 <a
+   href="index.html#flex-container"><i>可伸缩容器</i></a>.可伸缩容器的子元素被称作 <a href="index.html#flex-item"><i>可伸缩元素</i></a> 并且按照可伸缩布局模型来排列.
+  <p> 和块状,内联布局不同,他们的布局的计算受到了Unlike block and inline layout, whose layout calculations are biased to
+   the <a href="http://www.w3.org/TR/css3-writing-modes/#abstract-box">块和内联流动方向</a>的影响,可伸缩布局是受到 <a
+   href="index.html#flex-flow-property">可伸缩流动(flex flow)</a> 方向的影响的. 为了更好的介绍可伸缩布局,这个章节介绍几个和可伸缩布局相关的术语 ‘<a href="index.html#flex-flow"><code
+   class=property>flex-flow</code></a>’属性决定了这些术语怎么对应无力方向(top/right/bottom/left), 轴
+   (vertical/horizontal), 和大小 (width/height). <figure> <img alt=alt
+   height=277 src="images/flex-direction-terms.svg" width=665> <figcaption>
+	这个图例展示了不同方向,不同大小的术语在一
+   ‘<a href="index.html#flex-flow-row"><code class=css>行(row)</code></a>’ 可伸缩容器上的应用. </figcaption> </figure>
+  <dl id=main>
+   <dt class=axis title="main axis|main-axis">主轴(main axis)
+   <dt class=axis>主维度
+   <dd> 可伸缩容器的 <dfn id=main-axis>主轴</dfn>是它的<a href="index.html#flex-item"><i>可伸缩元素</i></a>所依附排列的主要的轴. 他在 <dfn id=main-dimension>主维度</dfn>上扩展.
+   <dt class=side>main-start
+   <dt class=side>main-end
+   <dd> <a href="index.html#flex-item"><i>可伸缩元素</i></a>被放在了一个容器中,这个容器以 <dfn id=main-start>main-start</dfn>为起点知道<dfn id=main-end>main-end</dfn>.
+   <dt class=size>main size
+   <dt class=size>main size property
+   <dd> 一个<a href="index.html#flex-item"><i>可伸缩元素</i></a>&apos;的宽度或高度,根据哪个是<a href="index.html#main-dimension"><i>主维度</i></a>上的来决定,那个就是这一项的<dfn id=main-size>main size</dfn>. <a
+    href="index.html#flex-item"><i>可伸缩元素</i></a>&apos;的 <dfn
+    id=main-size-property>main size property</dfn> 是 ‘<code
+    class=property>width</code>’ 或 ‘<code
+    class=property>height</code>’ 属性,根据哪个在 <a
+    href="index.html#main-dimension"><i>主维度</i></a>上来决定.
+  </dl>
+  <dl id=cross>
+   <dt class=axis title="cross axis|cross-axis">交叉轴
+   <dt class=axis>交叉维度
+   <dd> 和 <a href="index.html#main-axis"><i>主轴</i></a>垂直的轴叫做 <dfn id=cross-axis>交叉轴(cross axis)</dfn>. 它在 <dfn id=cross-dimension>交叉维度</dfn>上扩展.
+   <dt class=side>cross-start
+   <dt class=side>cross-end
+   <dd> 用一个个项填满<i>可伸缩线</i> 并且从容器的<dfn id=cross-start>交叉启始(cross-start)</dfn>端开始,到可伸缩容器的<dfn id=cross-end>交叉结束(cross-end)</dfn> 端为止.
+   <dt class=size>cross size
+   <dt class=size>cross size property
+   <dd> <a href="index.html#flex-item"><i>可伸缩元素(flex-item)</i></a>的高度或者宽度,具体由可伸缩容器的 <a href="index.html#cross-dimension"><i>维度</i>决定</a>,就是 <dfn id=cross-size>交叉大小(cross size)</dfn>. 
+    <dfn id=cross-size-property>cross-size 属性</dfn> 是项在 <a
+    href="index.html#cross-dimension"><i>交叉维度(cross dimension)</i></a>上的
+    ‘<code class=property>宽度</code>’ 或者 ‘<code
+    class=property>高度</code>’.
+  </dl>
+  <h2 id=flex-containers><span class=secno>3. </span> 可伸缩容器:作为<a
+   href="index.html#display-flex">‘<code class=css>flex</code>’</a> 和<a
+   href="index.html#display-inline-flex">‘<code class=css>inline-flex</code>’</a>
+   ‘<code class=property>display</code>’ 值</h2>
+  <table class=propdef>
+   <tbody>
+    <tr>
+     <th>Name:
+     <td>display
+    <tr>
+     <th><a href="index.html#values">New value</a>:
+     <td>flex | inline-flex
+  </table>
+  <dl>
+   <dt><dfn id=display-flex>‘<code class=css>flex</code>’</dfn>
+   <dd> 这个值导致了元素生成一个块状级别的<a
+    href="index.html#flex-container"><i>可伸缩容器</i></a>盒.
+   <dt><dfn id=display-inline-flex>‘<code
+    class=css>inline-flex</code>’</dfn>
+   <dd> 这个值导致元素生成一个内敛级别的<a
+    href="index.html#flex-container"><i>可伸缩容器</i></a> 盒.
+  </dl>
+  <p> 一个 <dfn id=flex-container>可伸缩容器</dfn> 创建了一个<dfn
+   id=flex-formatting-context>可伸缩格式化上下文</dfn> 给他的内容.
+    这个建立了一个块状格式化上下文一样,只不过不是用块状排布,而是用可伸缩排布: 浮动元素不会侵入可伸缩容器,可伸缩容器的外边距也不会和内容的边距折叠. <a href="index.html#flex-container"><i>可伸缩容器</i></a>给他的内容形成了一个块状容器<a
+   href="http://www.w3.org/TR/CSS21/visudet.html#containing-block-details">就跟块状容器一模一样</a>. <a href="index.html#CSS21"
+   rel=biblioentry>[CSS21]<!--{{!CSS21}}--></a> ‘<code
+   class=property>overflow</code>’ 属性对 <a
+   href="index.html#flex-container"><i>可伸缩容器</i>的应用</a>.
+  <p> 可伸缩容器不是块状容器, 因此部分属性针对块状排布设计的不会在可伸缩上下文中生效. 尤其是:
+  <ul>
+   <li> 所有的 ‘<code class=css>column-*</code>’ 属性,在所有的模块中都不会对可伸缩容器有效.
+   <li> ‘<code class=property>float</code>’ 和 ‘<code
+    class=property>clear</code>’对<a
+    href="index.html#flex-item"><i>可伸缩元素</i></a>无效. (但是, ‘<code
+    class=property>float</code>’ 属性,对于可伸缩容器的子容器仍然对
+    ‘<code class=property>display</code>’属性生效,不过仅在在这种情下: 在<a
+    href="index.html#flex-item"><i>可伸缩元素</i></a> 被决定<em title="">之前</em>.)
+   <li> ‘<code class=property>vertical-align</code>’ 对可伸缩元素无效.
+   <li> ‘<code class=css>::first-line</code>’ 和‘<code
+    class=css>::first-letter</code>’ 伪元素对 <a
+    href="index.html#flex-container"><i>可伸缩容器</i></a>不会生效.
+  </ul>
+  <p> 如果元素制定了‘<code class=property>display</code>’属性是
+   ‘<a href="index.html#display-inline-flex"><code
+   class=css>inline-flex</code></a>’ 而且元素是浮动的或者绝对定位的,那么‘<code
+   class=property>display</code>’属性的实际值是 <a href="index.html#display-flex">‘<code
+   class=css>flex</code>’</a>. 在<a
+   href="http://www.w3.org/TR/CSS2/visuren.html#dis-pos-flo">CSS 2.1 Chapter
+   9.7</a> 中的列表就是因此而追加的：让一个容器允许一个额为的行, 在拥有 ‘<a
+   href="index.html#display-inline-flex"><code class=css>inline-flex</code></a>’属性
+   的"Specified Value" 列 并且 <a href="index.html#display-flex">‘<code
+   class=css>flex</code>’</a>变成column属性的计算值.
+  <h2 id=flex-items><span class=secno>4. </span> 可伸缩元素</h2>
+  <p> 一个 <a href="index.html#flex-container"><i>可伸缩容器的内容</i></a>有一个或者多个 <dfn id=flex-item title="flex item">可伸缩元素</dfn>组成: 一个接着一个的 <a href="index.html#flex-container"><i>可伸缩容器的子元素</i></a> 变成了 <a href="index.html#flex-item"><i>可伸缩元素</i></a>, 而且每一个连贯的文字被直接的包含在了一个<a
+   href="index.html#flex-container"><i>可伸缩容器中</i></a> 被包裹在了一个匿名的<a href="index.html#flex-item"><i>可伸缩元素</i></a>元素中. 然而, 一个匿名的可伸缩元素只包含 <a
+   href="http://www.w3.org/TR/CSS21/text.html#white-space-prop">空格</a>是不会被渲染出来的,就像他的属性被设置成了‘<code
+   class=css>display:none</code>’一样.
+  <p class=note> 读这篇规范的作者也许想 <a
+   href="index.html#item-margins">跳过接下来的这些盒式生成细节</a>.
+  <p> 一个<a href="index.html#flex-item"><i>可伸缩元素</i></a> 会建立一个新的.
+   格式化上下文给他的内容. 这种类型的格式化上下文是由‘<code class=property>display</code>’ 属性的值所决定的. ‘<code class=property>display</code>’ 属性的计算值对于 <a
+   href="index.html#flex-item"><i>可伸缩元素</i></a> 是由应用下面的列表所决定的.<a href="http://www.w3.org/TR/CSS2/visuren.html#dis-pos-flo">CSS 2.1
+   Chapter 9.7</a>. 然而, 可伸缩元素是可伸缩级别的盒子, 不是块状级别的: 他们参与到他们的容器的可伸缩格式化上下文中去而不是块状格式化上下文.
+  <p class=note> ‘<code class=property>display</code>’属性的计算对于可伸缩元素在这里的定义是期望在将来被别的规范中定义的‘<code class=property>display</code>’
+   价值所制定给可伸缩元素的.
+  <div class=example>
+   <p>可伸缩元素的例子:
+   <pre>
+&lt;div style="display:flex">
+    &lt;!-- flex item: block child -->
+    &lt;div id="item1">block&lt;/div>
+    &lt;!-- flex item: floated element; floating is ignored -->
+    &lt;div id="item2" style="float: left;">float&lt;/div>
+    &lt;!-- flex item: anonymous block box around inline content -->
+    anonymous item 3
+    &lt;!-- flex item: inline child -->
+    &lt;span>
+        item 4
+        &lt;!-- flex items do not split around blocks -->
+        &lt;div id=not-an-item>item 4&lt;/div>
+        item 4
+    &lt;/span>
+&lt;/div></pre>
+  </div>
+  <p> 部分‘<code class=property>display</code>’ 的值造成了匿名盒子的生成. 比如, 一个没有父亲的‘<code
+   class=css>table-cell</code>’ 子元素通过 <a
+   href="http://www.w3.org/TR/CSS21/tables.html#anonymous-boxes">创造一个匿名的‘<code class=css>table</code>’所修复 而且创造一个‘<code
+   class=css>table-row</code>’ 元素</a>包裹着她. <a href="index.html#CSS21"
+   rel=biblioentry>[CSS21]<!--{{!CSS21}}--></a> 这个修复必须在
+    可伸缩容器的子元素被应用到<a
+   href="index.html#flex-item"><i>可伸缩元素</i></a><em>before</em>. 比如, 给两个连续的子元素,有‘<code class=css>display:table-cell</code>’属性, 一个匿名的
+   table 包裹他们变成了 <a
+   href="index.html#flex-item"><i>可伸缩元素</i></a>.
+  <p class=note> 未来的display 类型可能生成别的匿名容器(e.g.
+   ruby) 或者别的扰乱盒型树 (e.g. run-ins). 希望他们能够在可伸缩元素被决定之后再进行这些操作.
+  <p id=table-items> 对于一个拥有‘<code class=css>display:
+   table</code>’的可伸缩元素, 表个的包裹盒子变成了<a
+   href="index.html#flex-item"><i>可伸缩元素</i></a>, 而且 ‘<a href="index.html#order"><code
+   class=property>order</code></a>’ 属性和 ‘<a href="index.html#align-self"><code
+   class=property>align-self</code></a>’属性会被应用. 
+   任何盒子的内容会对表格容器的min-content属性和max-content属性的大小造成影响. 然而, 想 ‘<code
+   class=property>width</code>’ 和‘<code
+   class=property>height</code>’这样的属性个, ‘<a href="index.html#flex"><code
+   class=property>可伸缩</code></a>’ 被应用在表格盒子.就像下面这样: 
+    <a href="index.html#flex-item"><i>可伸缩元素</i></a>&apos;的最终大小是由这样的计算决定的,
+    进行一个排布吧所有的包裹盒子的边缘和包裹盒子的内容的边缘的距离当作盒子的边框和内边距的区域, 并且表格盒子被当作了 <a
+   href="index.html#flex-item"><i>可伸缩元素</i></a>.
+  <h3 id=abspos-items><span class=secno>4.1. </span>绝对定位的可伸缩子元素</h3>
+  <p> 一个绝对定位的子元素如果他的父亲是一个<a
+   href="index.html#flex-container"><i>可伸缩容器</i></a> 并不会参与可伸缩布局,如果存在<a href="index.html#algo-flex-order">重新排序阶段</a>.
+   然而, 如果‘<code class=property>left</code>’ 和‘<code
+   class=property>right</code>’或者  ‘<code
+   class=property>top</code>’ 和‘<code class=property>bottom</code>’
+   都是‘<code class=css>auto</code>’, 那么这些属性会被用来据算他们的 <dfn id=flex-item-static-position>静态位置
+   </dfn>, 方法如下:
+  <p> 如果 ‘<code class=property>left</code>’ 和 ‘<code
+   class=property>right</code>’ 为 ‘<code class=css>auto</code>’, 那么
+   绝对位置的子元素必须被放置这样他的 <a
+   href="index.html#main-start"><i>main-start</i></a> 或者 <a
+   href="index.html#cross-start"><i>cross-start</i></a> 边缘 (水平的那个轴) 与<a
+   href="index.html#flex-item-static-position"><i>静态位置</i></a>对齐. 如果
+   ‘<code class=property>top</code>’ 和 ‘<code
+   class=property>bottom</code>’ 为 ‘<code class=css>auto</code>’,绝对定位的子元素 必须被放置,这样一来 <a
+   href="index.html#main-start"><i>main-start</i></a> 或者 <a
+   href="index.html#cross-start"><i>cross-start</i></a> 边缘 (根据那个是竖直) 会跟<a
+   href="index.html#flex-item-static-position"><i>静态位置</i>对齐</a>.
+  <p> 在 <a href="index.html#main-axis"><i>主轴</i></a>中,
+  <ol>
+   <li> 如果 <a href="index.html#flex-container"><i>可伸缩容器</i></a> 没有包含任何东西
+     <a href="index.html#flex-item"><i>可伸缩元素</i></a>, the <a
+    href="index.html#flex-item-static-position"><i>静态位置</i></a> 是由
+     ‘<a href="index.html#justify-content"><code
+    class=property>justify-content</code></a>’在 <a
+    href="index.html#flex-container"><i>可伸缩容器</i></a>上的值 相当于<a
+    href="index.html#flex-item-static-position"><i>静态位置</i></a> 
+    代表一个没有大小的 <a href="index.html#flex-item"><i>可伸缩元素</i></a>.
+     <li> 如果前面没有可伸缩元素或者前面的可伸缩的序列不再同一个可伸缩线上,那么<a
+    href="index.html#flex-item-static-position"><i>静态位置</i></a> 就是那个<a
+    href="index.html#flex-item"><i>可伸缩元素</i></a>的
+    <a href="index.html#main-start"><i>main-start</i></a> 的外边缘 .
+   <li> 否则, 如果前面有一个 <a href="index.html#flex-item"><i>可伸缩元素
+    </i></a>, 那么 <a href="index.html#flex-item-static-position"><i>静态位置
+    </i></a> 就是<a href="index.html#flex-item"><i>可伸缩元素</i></a>的<a href="index.html#main-end"><i>main-end</i></a>的外边缘.
+  </ol>
+  <p> 在<a href="index.html#cross-axis"><i>交叉轴</i></a>上,
+  <ol>
+   <li> 如果前面有一个 <a href="index.html#flex-item"><i>可伸缩元素</i></a>,
+    而且 <a href="index.html#flex-item-static-position"><i>静态位置</i></a> 是
+    <a href="index.html#cross-start"><i>cross-start</i></a> 的位于
+    <i>可伸缩线</i> 上的边缘.
+   <li> 否则, the <a href="index.html#flex-item-static-position"><i>静态位置</i></a> 
+     是 <i>cross-start </i>的第一个的边缘<i>可伸缩线
+     </i>.
+  </ol>
+  <p class=note> 境外位置被设计成大概能够合上匿名的 0×0 的流 <a href="index.html#align-self">‘<code
+   class=css>flex-start</code>’-对齐</a> 可伸缩课题参与到了可伸缩布局
+    , 主要的不同在于任何包裹的空间由于
+   ‘<code class=css>justify-content: space-around</code>’属性 或者 ‘<code
+   class=css>justify-content: space-between</code>’属性的存在,会被围绕着一个假象的项而压缩: 
+    在这个下个项之间,如果确实有一个项在他后面的话,否则就放在和前一个项之间.
+  <h3 id=item-margins><span class=secno>4.2. </span> 可伸缩元素边距</h3>
+  <p> 临近的 <a href="index.html#flex-item"><i>可伸缩元素</i></a> 的边距并不会折叠.
+    自动编剧会根据所设定的维度,吸收周外额外的空间,并且能有被用来排版和压入新的临近的可伸缩元素; 见 <a href="index.html#auto-margins">根据 ‘<code
+   class=css>自动</code>’ 边距排版</a>.
+  <h3 id=painting><span class=secno>4.3. </span> 可伸缩元素的绘制</h3>
+  <p> <a href="index.html#flex-item"><i>可伸缩元素</i></a>的和i话和块状级别的元素一模一样的按照普通流模型, 只不过 <a
+   href="http://www.w3.org/TR/CSS21/visuren.html#propdef-z-index">‘<code
+   class=property>z-index</code>’</a>值除了 ‘<code
+   class=css>auto</code>’ 以外都会生成一个栈的上下文就算 ‘<code
+   class=property>position</code>’ 是‘<code class=css>static</code>’也是如此.
+  <p class=note> 备注: 那些在可伸缩元素之外的后裔让然会参与
+   到那个由可伸缩元素建立的栈上下文中去.
+  <h3 id=visibility-collapse><span class=secno>4.4. </span> 折叠的项</h3>
+  <p> 通过指定 ‘<code class=css>visibility:collapse</code>’ 到可伸缩元素会导致她
+    变成一个<dfn id=collapsed-flex-item
+   title="collapsed flex item|collapsed">折叠的可伸缩元素</dfn>, 创造一个类似于producing
+   an effect similar to ‘<code class=css>visibility:collapse</code>’ 的效果在on a
+   table-row 拥有 table-column: 为 collapsed 的元素上面,会被完全在渲染的时候移除
+   , 不会会留下一个"支撑"让可伸缩线的交叉轴稳定.因此如果一个可伸缩容器仅有一个可伸缩线,动态的折叠或者没有折叠的项一定不会对可伸缩容器的 <a href="index.html#cross-size"><i>交叉尺寸</i></a>造成影响,并且不会导致剩下的页面的布局被"摇晃". 可伸缩线的包裹<em>是</em> 在折叠之后再重置, 然而, 可伸缩容器的交叉尺寸,如果有多行的话,改变和不改变都是有可能的.
+  <p> 尽管折叠过的可伸缩元素不会被渲染出来,他们还是会在 <a
+   href="http://www.w3.org/TR/CSS21/intro.html#formatting-structure">格式化结构
+</a>中出现. 因此, 跟设置 ‘<code
+   class=css>display:none</code>’ 属性不同<a href="index.html#CSS21"
+   rel=biblioentry>[CSS21]<!--{{!CSS21}}--></a>, 会影响那些以写会在格式化结构中出现的元素
+    (比如某些自增的计数器和运行中的动画和变换)仍然会对折叠过的项目造成影响.
+  <div class=example>
+   <p>在下面的例子中, 一个边栏被设定成了刚好适应他的内容.
+    ‘<code class=css>Visibility: collapse</code>’被涌来让他动态的隐藏边栏的导航而不用影响他的宽度,
+     计算最宽的项 (“结构上”) 在一个被折叠的区域里.
+    <figure> <figcaption>一个渲染的例子如下</figcaption>
+    <div id=visibility-collapse-example>
+     <!-- No, don't look at this source code, look at the other source code. -->
+     <nav>
+     <ul>
+      <li id=nav-about><a href="index.html#nav-about">About</a>
+       <ul>
+        <li><a href="index.html#">History</a>
+        <li><a href="index.html#">Mission</a>
+        <li><a href="index.html#">People</a>
+       </ul>
+      <li id=nav-projects><a href="index.html#nav-projects">Projects</a>
+       <ul>
+        <li><a href="index.html#">Art</a>
+        <li><a href="index.html#">Architecture</a>
+        <li><a href="index.html#">Music</a>
+       </ul>
+      <li id=nav-interact><a href="index.html#nav-interact">Interact</a>
+       <ul>
+        <li><a href="index.html#">Blog</a>
+        <li><a href="index.html#">Forums</a>
+        <li><a href="index.html#">Events</a>
+       </ul>
+     </ul>
+     </nav> <article> Interesting Stuff to Read </article></div>
+    </figure>
+   <pre>
+<!--		-->&lt;style>
+<!--		-->  @media (min-width: 60em) {
+<!--		-->    /* <a
+    href="http://www.w3.org/TR/css3-mediaqueries/#width">two column layout only when enough room</a> (relative to default text size) */
+<!--		-->    header + div { display: flex; }
+<!--		-->    #main {
+<!--		-->      flex: 1;         /* <a
+    href="index.html#flexibility">Main takes up all remaining space</a> */
+<!--		-->      order: 1;        /* <a
+    href="index.html#order-property">Place it after (to the right of) the navigation</a> */
+<!--		-->      min-width: 12em; /* <a
+    href="index.html#min-size-opt">Optimize main content area sizing</a> */
+<!--		-->    }
+<!--		-->  }
+<!--		-->  /* menu items use flex layout so that visibility:collapse will work */
+<!--		-->  nav > ul > li { 
+<!--		-->    display: flex;
+<!--		-->    flex-flow: column;
+<!--		-->  }
+<!--		-->  /* dynamically collapse submenus when not targetted */
+<!--		-->  nav > ul > li:not(:target):not(:hover) > ul {
+<!--		-->    visibility: collapse;
+<!--		-->  }
+<!--		-->&lt;/style>
+<!--		-->…
+<!--		-->&lt;/header>
+<!--		-->&lt;div>
+<!--		-->  &lt;article id="main">
+<!--		-->    Interesting Stuff to Read
+<!--		-->  &lt;/article>
+<!--		-->  &lt;nav>
+<!--		-->    &lt;ul>
+<!--		-->      &lt;li id="nav-about">&lt;a href="#nav-about">About&lt;/a>
+<!--		-->        …
+<!--		-->      &lt;li id="nav-projects">&lt;a href="#nav-projects">Projects&lt;/a>
+<!--		-->        &lt;ul>
+<!--		-->          &lt;li>&lt;a href="…">Art&lt;/a>
+<!--		-->          &lt;li>&lt;a href="…">Architecture&lt;/a>
+<!--		-->          &lt;li>&lt;a href="…">Music&lt;/a>
+<!--		-->        &lt;/ul>
+<!--		-->      &lt;li id="nav-interact">&lt;a href="#nav-interact">Interact&lt;/a>
+<!--		-->        …
+<!--		-->    &lt;/ul>
+<!--		-->  &lt;/nav>
+<!--		-->&lt;/div>
+<!--		-->&lt;footer>
+<!--		-->…
+</pre>
+  </div>
+  <p> 为了计算支撑的大小,可伸缩布局首先会被应用到所有没有折叠的项上,然后用一个支撑维持着纵轴尺寸,来替换每一个被折叠了的项的大小和可伸缩线.
+    具体可以参考 <a href="index.html#layout-algorithm">可伸缩布局算法</a> ,他给了一个关于‘<code
+   class=css>visibility:collapse</code>’ 如何影响可伸缩布局的普世性定义.
+  <p class=note> 注意使用‘<code
+   class=css>visibility:collapse</code>’ 在任何的可伸缩元素上都会导致
+    可伸缩布局的算法重复应用,重新运行那些最耗时的步骤.因此我们建议开发者仍然使用 ‘<code
+   class=css>display:none</code>’来隐藏元素如果他们并不会被自动的折叠和展开,因为这样做
+    对布局引擎来说效率更高. (因为一部分的步骤必须得被重复,当
+   ‘<code class=property>visibility</code>’ 的值被改变的时候, 然而, ‘<code
+   class=css>visibility: collapse</code>’ 仍然在动态的情况下被推荐.)
+  <h3 id=min-size-auto><span class=secno>4.5. </span> 可伸缩元素的默认最小大小</h3>
+  <p>为了提供更加合理的默认大小给可伸缩元素,这个规范介绍一种新型的<a href="index.html#min-auto">‘<code
+   class=css>auto</code>’</a> 值给出事的‘<code
+   class=property>min-width</code>’ 和 ‘<code
+   class=property>min-height</code>’属性,这在CSS 2.1
+    中定义, <a
+   href="index.html#CSS21" rel=biblioentry>[CSS21]<!--{{!CSS21}}--></a>
+  <table class=propdef>
+   <tbody>
+    <tr>
+     <th>名字:
+     <td>min-width, min-height
+    <tr>
+     <th><a href="index.html#values">新值</a>:
+     <td>auto
+    <tr>
+     <th>新初始值:
+     <td><a href="index.html#min-auto"><strong
+      title="min-width/height:auto">auto</strong></a>
+    <tr>
+     <th>新的计算值:
+     <td>百分比,或者绝对长度,或者一个关键字.
+  </table>
+  <dl>
+   <dt><dfn id=min-auto title="min-width/height:auto">auto</dfn>
+   <dd> 当被用作可伸缩项目的小轴的主尺寸舒心的时,这个关键字表示他的内容的最小大小,
+     为了确定那个元素有足够大的空间来装下他的内容.
+    <p class=note> 这被设计成了会计算‘<code
+     class=css>min-content</code>’的关键词,当文档定义了的时候 (<a
+     href="http://www.w3.org/TR/css3-writing-modes/#intrinsic-sizing">书写模型附录D</a>) 更加的中性.
+    <p> 否则,这个关键词会被当作‘<code class=css>0</code>’
+     (除非有别的规范在未来给了别的定义).
+  </dl>
+  <div class=note id=min-size-opt>
+   <p> 注意,尽管使用内容的最小尺寸在大多数情况下都是合理的,而且能够防止内容把打过容器,从而毁坏容器的外部结构
+    ,但并不总是这样:
+   <p> 在这种情况下,如果可伸缩尺寸被用作文档的主要的内容空间, 最好还是指定一下字体的最小相对宽度比如: ‘<code class=css>min-width: 12em</code>’. 
+     一个基于内容的最小宽度会导致在一个大型的表格中或者大的图片中伸缩的尺寸导致内容被挤到了一个溢出空间,因此会导致某些行的文字过于长而难以阅读.
+   <p> 另外还要注意,当给予内容的大小被用在一个有非常多内容的元素上时,排版引擎必须遍历所有的内容来保证找到最小的长度,也就是说如果程序员如果显示的指定了最小宽度,这么做就不是必须的了.(对于那些内容非常少的元素,这些遍历的工作是非常少的,因此不会造成任何性能问题)
+  </div>
+  <h2 id=flow-order><span class=secno>5. </span> 顺序和朝向</h2>
+  <p> 一个可伸缩容器的内容必须能够放置在任何方向上,顺序也是随意的.这样让作者能够尝试和实现各种效果,而不用使用之前采用的复杂的或者不直观的方法.
+    比如一些使用‘<code class=property>float</code>’ 和‘<code
+   class=property>clear</code>’ 属性的hack技巧. 这个功能被放在了‘<a href="index.html#flex-direction"><code
+   class=property>flex-direction</code></a>’, ‘<a href="index.html#flex-wrap"><code
+   class=property>flex-wrap</code></a>’, 和‘<a href="index.html#order"><code
+   class=property>order</code></a>’ 属性上.
+  <p class=note> 可伸缩排版的重新排序的能力在设计之初就能够影响到那些
+    <em>仅仅视觉渲染</em>的部分,而不会影响到那些阅读顺序和基于导航的源代码顺序.
+    这样一来,作者能够维护视觉效果的同时,让源文件更好的支持non-CSS的客户端,而且对于那些现行模型,比如阅读和分段导航也有帮助. 详见 <a
+   href="index.html#order-accessibility">排序和易用性</a> 以及 <a
+   href="index.html#overview">可伸缩排版概览</a>比如说使用这个二分法来提高易用性.
+  <p>作者<em>不可以</em>使用这些技术来为自标题提供顺序,因为这样会导致文档总体的易用性下降.
+  <h3 id=flex-direction-property><span class=secno>5.1. </span> 可伸缩流的方向: ‘<a href="index.html#flex-direction"><code
+   class=property>flex-direction</code></a>’ 属性</h3>
+  
+  <table class=propdef>
+   <tbody>
+    <tr>
+     <th>名字:
+     <td><dfn id=flex-direction>flex-direction</dfn>
+    <tr>
+     <th><a href="index.html#values">值</a>:
+     <td>row | row-reverse | column | column-reverse
+    <tr>
+     <th>默认:
+     <td>row
+    <tr>
+     <th>应用于:
+     <td>可伸缩容器
+    <tr>
+     <th>继承:
+     <td>no
+    <tr>
+     <th>计算值:
+     <td>特定值
+    <tr>
+     <th>媒体:
+     <td>可视
+    <tr>
+     <th>是否动画:
+     <td>否
+    <tr>
+     <th>标准顺序:
+     <td><abbr title="follows order of property value definition">按照语法</abbr>
+  </table>
+  <p> ‘<a href="index.html#flex-direction"><code
+   class=property>flex-direction</code></a>’属性指定了如何让 <a
+   href="index.html#flex-item"><i>可伸缩项</i></a> 放置在可伸缩容器里,
+   通过设定可伸缩容器的 <a
+   href="index.html#main-axis"><i>主轴</i></a>方向. 这决定了那些可伸缩项目如何拜访.
+  <dl>
+   <dt><dfn id=flex-flow-row>‘<code class=css>排</code>’</dfn>
+   <dd> 可伸缩容器的<a href="index.html#main-axis"><i>主轴</i></a> 跟<a
+    href="http://www.w3.org/TR/css3-writing-modes/#inline-axis">inline
+    axis</a>拥有同样的朝向在当前的 <i>书写模式下</i>. <a
+    href="index.html#main-start"><i>main-start</i></a> 属性和 <a
+    href="index.html#main-end"><i>main-end</i></a>属性的方向相当于 <a
+    href="http://www.w3.org/TR/css3-writing-modes/#start">start</a> 和<a
+    href="http://www.w3.org/TR/css3-writing-modes/#end">end</a>属性的方向,
+    同样的,也是对于当前的<i>写模式</i>.
+   <dt><dfn id=flex-flow-row-reverse>‘<code
+    class=css>row-reverse</code>’属性</dfn>
+   <dd> 和 ‘<a href="index.html#flex-flow-row"><code
+    class=css>row</code></a>’属性一样,期望 <a
+    href="index.html#main-start"><i>main-start</i></a> 和<a
+    href="index.html#main-end"><i>main-end</i></a> 方向被交换
+   <dt><dfn id=flex-flow-column>‘<code class=css>column</code>’</dfn>
+
+   <dd> 可伸缩容器的 <a href="index.html#main-axis"><i>主轴</i></a> 跟
+ <a
+    href="http://www.w3.org/TR/css3-writing-modes/#block-axis">block axis</a>有同样的放在,针对在当前的<i>书写模式下</i>.
+<a
+    href="index.html#main-start"><i>main-start</i></a>属性和<a
+    href="index.html#main-end"><i>main-end</i></a>属性的方向跟<a
+    href="http://www.w3.org/TR/css3-writing-modes/#before">before</a> 和<a
+    href="http://www.w3.org/TR/css3-writing-modes/#after">after</a>属性的
+    方向是等价的,当然,也是在当前的<i>书写模式</i>下.
+   <dt><dfn id=flex-flow-column-reverse>‘<code
+    class=css>column-reverse</code>’属性</dfn>
+   <dd> 跟‘<a href="index.html#flex-flow-column"><code
+    class=css>column</code></a>’属性一样,期望 <a
+    href="index.html#main-start"><i>main-start</i></a> 和<a
+    href="index.html#main-end"><i>main-end</i></a>属性的方向交换.
+  </dl>
+  <p class=note>被交换的值并更不会交换盒子的顺序;想
+   ‘<code class=property>writing-mode</code>’属性 和 ‘<code
+   class=property>direction</code>’ 属性<a href="index.html#CSS3-WRITING-MODES"
+   rel=biblioentry>[CSS3-WRITING-MODES]<!--{{CSS3-WRITING-MODES}}--></a>,
+    他们只会改变流的方向. 绘制的顺序,阅读顺序,和导航的顺序都不会被影响.
+  <h3 id=flex-wrap-property><span class=secno>5.2. </span> 可伸包裹缩线: ‘<a href="index.html#flex-wrap"><code
+   class=property>flex-wrap</code></a>’属性</h3>
+  <table class=propdef>
+   <tbody>
+    <tr>
+     <th>明细:
+     <td><dfn id=flex-wrap>flex-wrap</dfn>
+    <tr>
+     <th><a href="index.html#values">值</a>:
+     <td>nowrap | wrap | wrap-reverse
+    <tr>
+     <th>初始:
+     <td>nowrap
+    <tr>
+     <th>对象:
+     <td>flex containers
+    <tr>
+     <th>继承:
+     <td>no
+    <tr>
+     <th>计算值:
+     <td>specified value
+    <tr>
+     <th>媒体:
+     <td>visual
+    <tr>
+     <th>支持动画:
+     <td>no
+    <tr>
+     <th>标准顺序:
+     <td><abbr title="follows order of property value definition">per
+      grammar</abbr>
+  </table>
+  <p> ‘<a href="index.html#flex-wrap"><code
+   class=property>flex-wrap</code></a>’属性控制了可伸缩容器的 <a href="index.html#single-line"><i>单独行</i></a>或者<a
+   href="index.html#multi-line"><i>负数行</i></a>, 而且
+   <i>cross-axis</i>属性会导致,新的有方向的行被压入堆栈.
+  <dl>
+   <dt><dfn id=flex-flow-nowrap>‘<code class=css>nowrap</code>’属性</dfn>
+   <dd> 可伸缩容器是<a href="index.html#single-line"><i>独行</i>的</a>.
+    <a href="index.html#cross-start"><i>cross-start</i></a> 方向相当于
+     <a
+    href="http://www.w3.org/TR/css3-writing-modes/#start">start</a> 或者
+    <i>before</i>中的任意一个<!-- <a href="http://www.w3.org/TR/css3-writing-modes/#before">before</a> -->
+    方向的当前的 <i>写模式</i>,不管是哪个, 在<a
+    href="index.html#cross-axis"><i>cross axis</i></a>属性,和 <a
+    href="index.html#cross-end"><i>cross-end</i></a>属性的当方向,必须是和<a href="index.html#cross-start"><i>cross-start</i></a>属性相反.
+   <dt><dfn id=flex-flow-wrap>‘<code class=css>wrap</code>’属性</dfn>
+   <dd> 可伸缩容器的 <a href="index.html#multi-line"><i>多行</i></a>.
+    <a href="index.html#cross-start"><i>cross-start</i></a>属性的方向必须等于
+    要么是<a
+    href="http://www.w3.org/TR/css3-writing-modes/#start">start</a>要么是
+    <i>before</i><!-- <a href="http://www.w3.org/TR/css3-writing-modes/#before">before</a> -->
+    当前的在<i>写模式</i>下的方向, 不管是哪个都得在 <a
+    href="index.html#cross-axis"><i>cross axis</i></a>, 而且<a
+    href="index.html#cross-end"><i>cross-end</i></a> 和<a href="index.html#cross-start"><i>cross-start</i></a>的方向是相反的.
+   <dt><dfn id=flex-flow-wrap-reverse>‘<code
+    class=css>wrap-reverse</code>’属性</dfn>
+   <dd> 和‘<a href="index.html#flex-flow-wrap"><code
+    class=css>wrap</code></a>’属性相同,除了 <a
+    href="index.html#cross-start"><i>cross-start</i></a> 和<a
+    href="index.html#cross-end"><i>cross-end</i></a>的方向被交换了之外.
+  </dl>
+  <h3 id=flex-flow-property><span class=secno>5.3. </span> 可伸缩方向的包裹: ‘<a href="index.html#flex-flow"><code
+   class=property>flex-flow</code></a>’ 的缩写</h3>
+  <table class=propdef>
+   <tbody>
+    <tr>
+     <th>名字:
+     <td><dfn id=flex-flow>flex-flow</dfn>
+    <tr>
+     <th><a href="index.html#values">值</a>:
+     <td>&lt;‘<a href="index.html#flex-direction"><code
+      class=property>flex-direction</code></a>’> || &lt;‘<a
+      href="index.html#flex-wrap"><code class=property>flex-wrap</code></a>’>
+    <tr>
+     <th>初始值:
+     <td>详见独立属性
+    <tr>
+     <th>所属:
+     <td>flex containers
+    <tr>
+     <th>继承:
+     <td>详见独立属性
+    <tr>
+     <th>计算值:
+     <td>详见独立属性
+    <tr>
+     <th>媒体:
+     <td>visual
+    <tr>
+     <th>支持动画:
+     <td>no
+    <tr>
+     <th>标准顺序:
+     <td><abbr title="follows order of property value definition">per
+      grammar</abbr>
+  </table>
+  <p>The ‘<a href="index.html#flex-flow"><code class=property>flex-flow</code></a>’
+   属性是设置‘<a href="index.html#flex-direction"><code
+   class=property>flex-direction</code></a>’ 和‘<a
+   href="index.html#flex-wrap"><code class=property>flex-wrap</code></a>’属性们的缩写,
+   他们合在一起定义了可伸缩容器的主要轴和交叉轴.
+  <div class=example>
+   <p>下面是一些有效的英文流 (从左到右,从上到下的书写模式)文档:
+   <table
+    style="margin: 0 auto; vertical-align: middle; border-spacing: 2em 1em;">
+    <tbody>
+     <tr>
+      <td>
+       <pre>
+div { flex-flow: row; }
+/* Initial value. Main-axis is 
+   inline, no wrap. */</pre>
+      <td><img alt=alt height=46 src="images/flex-flow1.svg" width=205>
+     <tr>
+      <td>
+       <pre>
+div { flex-flow: column wrap; }
+/* Main-axis is block-direction (top to bottom) 
+   and lines wrap in the inline direction (rightwards). */</pre>
+      <td><img alt=alt height=160 src="images/flex-flow2.svg" width=89>
+     <tr>
+      <td>
+       <pre>
+div { flex-flow: row-reverse wrap-reverse; }
+/* Main-axis is the opposite of inline direction 
+   (right to left). New lines wrap upwards. */</pre>
+      <td><img alt=alt height=89 src="images/flex-flow3.svg" width=160>
+   </table>
+  </div>
+  <div class=note>
+   <p>注意 ‘<a href="index.html#flex-flow"><code
+    class=property>flex-flow</code></a>’属性的方向是 <i>书写模式</i>敏感的.在水平的日文中,比如, 一个 ‘<a
+    href="index.html#flex-flow-row"><code class=css>row</code></a>’ 可伸缩容器的可皮把他的内容从上到下的排布
+     ,就像下面这个例子里面一样:
+   <table style="margin: 1em auto; text-align: center;">
+    <thead>
+     <tr>
+      <th>英文
+      <th>日语
+    <tbody>
+     <tr>
+      <td>
+       <pre>flex-flow: row wrap;<br>writing-mode: horizontal-tb;</pre>
+      <td>
+       <pre>flex-flow: row wrap;<br>writing-mode: vertical-rl;</pre>
+     <tr>
+      <td><img alt=alt src="images/flex-flow-english.svg">
+      <td><img alt=alt src="images/flex-flow-japanese.svg">
+   </table>
+  </div>
+  <h3 id=order-property><span class=secno>5.4. </span> 显示顺序: 
+   ‘<a href="index.html#order"><code class=property>order</code></a>’ 属性</h3>
+  <p> <a href="index.html#flex-item"><i>可伸缩元素</i></a> 在默认情况下会根据源文件里同样的顺序排列和显示.
+   ‘<a href="index.html#order"><code class=property>order</code></a>’属性可以用来改变这个顺序.
+  <table class=propdef>
+   <tbody>
+    <tr>
+     <th>名字:
+     <td><dfn id=order>order</dfn>
+    <tr>
+     <th><a href="index.html#values">值</a>:
+     <td>&lt;整数>
+    <tr>
+     <th>初始值:
+     <td>0
+    <tr>
+     <th>应用于:
+     <td>可伸缩项目和绝对定位的可伸缩容器的子元素
+    <tr>
+     <th>继承:
+     <td>no
+    <tr>
+     <th>计算值:
+     <td>制定值
+    <tr>
+     <th>媒体:
+     <td>visual
+    <tr>
+     <th>支持动画:
+     <td>是
+    <tr>
+     <th>标准顺序:
+     <td><abbr title="follows order of property value definition">per
+      grammar</abbr>
+  </table>
+  <p> ‘<a href="index.html#order"><code class=property>order</code></a>’
+   属性控制了可伸缩项目们在她们的容器中出现的顺序,这通过制定他们的顺序组别来做到.
+  <p> 一个可伸缩容器可以排布他的内容从最小的序数组别到大的.项目们在排序中跟文档中有相同的序数组别.这同样影响了 <a href="http://www.w3.org/TR/CSS2/zindex.html">绘制顺序</a> <a href="index.html#CSS21" rel=biblioentry>[CSS21]<!--{{!CSS21}}--></a>,
+   就好象他们在文档中进行了重新排序一样.
+  <div class=example>
+   <p>下面的这个表格展示了一个由标签组成的界面,这里被激活的标签页总是第一个:
+   <div class=figure><img alt=alt src="images/flex-order-example.png"></div>
+   <p>这可以用下面的CSS来实现(只显示了相关的代码):
+   <pre>
+.tabs {
+	display: flex;
+}
+.tabs > .current {
+	order: -1; /* Lower than the default of 0 */
+}</pre>
+  </div>
+  <p> 除非未来有新的规范做出了制定,这个属性对不是<a href="index.html#flex-item"><i>
+   可伸缩项目</i></a>的元素没有影响. <!--
+	<p class='note'>
+		It is expected that future layout modes like Grid Layout
+		will also use 'order' for similar purposes.
+-->
+  <h4 id=order-accessibility><span class=secno>5.4.1. </span> 重新排序和易用性</h4>
+  <p> ‘<a href="index.html#order"><code class=property>order</code></a>’属性
+    <em>不会</em>影响非可视化的媒体(比如 <a
+   href="http://www.w3.org/TR/css3-speech/">阅读</a>). 同样的, ‘<a
+   href="index.html#order"><code class=property>order</code></a>’属性不会影响默认的遍历顺序(比如在链接里面循环, 比如 e.g. ‘<code class=property>nav-index</code>’属性 <a
+   href="index.html#CSS3UI" rel=biblioentry>[CSS3UI]<!--{{CSS3UI}}--></a> 或者<a
+   href="http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#sequential-focus-navigation-and-the-tabindex-attribute"><code>tabindex</code></a>
+   <a href="index.html#HTML40" rel=biblioentry>[HTML40]<!--{{HTML40}}--></a>). 作者
+   <em>必须</em> 只能用 ‘<a href="index.html#order"><code
+   class=property>order</code></a>’属性做视觉顺序,而非逻辑顺序,
+   的重排; 样式表如果使用了 ‘<a href="index.html#order"><code
+   class=property>order</code></a>’来展示逻辑顺序是不好的.
+  <p class=note>这样一来那些非可视化的媒体和不支持CSS的客户端,也就是那些一般都线性排列的终端,会依赖于源文件的逻辑顺序,
+   然而‘<a href="index.html#order"><code class=property>order</code></a>’ 是用来改变视觉顺序的. 
+    (因为视觉顺序在概念上是2维的而且是非线性的我们想要的视觉顺序并不总是逻辑上的.)
+  <div class=example>
+   <p> 许多网页都想形状相似的组成,一个头部在顶端,一个尾部在底端,然后是内容区域比如一个或几个额外的条目在中间.总的来说,内容在额外的条目之前出现在代码中是我们想要的.然而,这造成了许多通用设计,比如一个放在左边的额外条目和右边的主要内容,很难被实现.在过去的许多年里这通过了许多其他方式解决,通常是我们所说的"Holy Grail Layout"方式,当他们有许多个额外条目时. ‘<a href="index.html#order"><code
+    class=property>order</code></a>’让这更简单.比如,使用下面的框架来构建网页的结构和布局:
+   <div class=code-and-figure>
+    <div>
+     <pre>
+&lt;!DOCTYPE html>
+&lt;header>...&lt;/header>
+&lt;div id='main'>
+   &lt;article>...&lt;/article>
+   &lt;nav>...&lt;/nav>
+   &lt;aside>...&lt;/aside>
+&lt;/div>
+&lt;footer>...&lt;/footer></pre>
+    </div>
+    <div><img
+     alt="In this page the header is at the top and the footer at the bottom, but the article is in the center, flanked by the nav on the right and the aside on the left."
+     height=360 src="images/flex-order-page.svg" width=400></div>
+   </div>
+   <p> 这个布局可以简单被可伸缩布局实现:
+   <pre>
+#main { display: flex; }
+#main > article { flex:1;         order: 2; }
+#main > nav     { width: 200px;   order: 1; }
+#main > aside   { width: 200px;   order: 3; }</pre>
+   <p> 作为一个额外的好处, 额外的条目都会默认<a
+    href="index.html#align-stretch">等高</a>而主要内容会尽可能的宽来覆盖屏幕.除此之外,这还可以通过其他的媒体查询在晓得屏幕上实现完全水平的布局:
+   <pre>
+@media all and (max-width: 600px) {
+	/* Too narrow to support three columns */
+	#main { flex-flow: column; }
+	#main > article, #main > nav, #main > aside {
+		/* Return them to document order */
+		order: 0; width: auto;
+	}
+}</pre>
+   <p><small>(在未来可以用多行可伸缩容器来实现的那些甚至更智能的布局就留给读者做练习了.)</small>
+  </div>
+  <h2 id=flex-lines><span class=secno>6. </span> Flex Lines</h2>
+  <p> 可伸缩容器可以为<a
+   href="index.html#single-line"><i>单行</i></a> 或者 <a
+   href="index.html#multi-line"><i>多行</i></a>根据‘<a
+   href="index.html#flex-wrap"><code class=property>flex-wrap</code></a>’ 属性:
+  <ul>
+   <li> 一个 <dfn id=single-line>单行</dfn> 可伸缩容器会把他的所有子元素排布在同一个行里面
+     ,就算这回导致他的内容益处
+   <li> A <dfn id=multi-line>多行</dfn> 可伸缩容器会把他的<a
+    href="index.html#flex-item"><i>可伸缩项目</i></a>分到多个行里面,类似于文本是如何被分一个新的行去的,当他的宽度太宽了,没有办法在一个行里面放下的时候.
+     当附加的行被创建的时候,他们被压入了可伸缩容器的栈顶,沿着<a href="index.html#cross-axis"><i>交叉轴</i></a>
+    根据 ‘<a href="index.html#flex-wrap"><code
+    class=property>flex-wrap</code></a>’ 属性.每个行至少包含一个
+     <a href="index.html#flex-item"><i>可伸缩项</i></a>, 除非可伸缩容器本身就是空的
+  </ul>
+  <div class=example>
+    <p> 这个例子演示了4个无法水平安放的按钮
+   <pre>&lt;style>
+#flex {
+	display: flex;
+	flex-flow: row wrap;
+	width: 300px;
+}
+.item {
+	width: 80px;
+}
+&lt;/style>
+&lt;div id="flex">
+	&lt;div class='item'>1&lt;/div>
+	&lt;div class='item'>2&lt;/div>
+	&lt;div class='item'>3&lt;/div>
+	&lt;div class='item'>4&lt;/div>
+&lt;/div></pre>
+   <p> 因为容器有300px宽,只能能够放下三个项目在一行里
+    .他们一共240px,还剩下60px的空间.
+     因为 ‘<a href="index.html#flex-flow"><code
+    class=property>flex-flow</code></a>’ 属性指定了<a
+    href="index.html#multi-line"><i>多行</i></a> 可神容容器 (由于 ‘<a
+    href="index.html#flex-flow-wrap"><code class=css>wrap</code></a>’ 关键字在这里作为值
+), 可伸缩容器会创建一个额外的行来放最后一个按钮
+     . <figure> <img
+    src="images/multiline-no-flex.svg"> <figcaption> 一个渲染多行可伸缩容器的例子. </figcaption> </figure>
+  </div>
+  <p>当内容被分割到多行里面,没一行都是独立排布的;
+    可伸缩长读和 ‘<a href="index.html#justify-content"><code
+   class=property>justify-content</code></a>’属性和 ‘<a
+   href="index.html#align-self"><code class=property>align-self</code></a>’
+   属性一次只考虑在一行里面的那内容.
+  <p>当一个可伸缩容器有多行的时候,没一行的<a
+   href="index.html#cross-size"><i>交叉尺寸</i></a>相当于能够下没一行的 <a href="index.html#flex-item"><i>可伸缩元素</i></a>的最小尺寸
+    (在根据‘<a href="index.html#align-self"><code
+   class=property>align-self</code></a>’)对齐之后,而且所有的行都会在可伸缩容器内按照 ‘<a href="index.html#align-content"><code
+   class=property>align-content</code></a>’ 属性对齐. 当一个可伸缩容器的
+   (甚至是 <a href="index.html#multi-line"><i>多行</i></a>的)只有一行的时候, 
+    这行的<a href="index.html#cross-size"><i>交叉尺寸</i></a>或者这个可伸缩容器的
+   <a href="index.html#cross-size"><i>交叉尺寸</i></a> ,和 
+   ‘<a href="index.html#align-content"><code
+   class=property>align-content</code></a>’ 属性都没有任何效果. 行的<a
+   href="index.html#main-size"><i>主尺寸</i></a>总是和可伸缩容器的内容盒子的
+   <a href="index.html#main-size"><i>主尺寸</i></a>一样.
+  <div class=example>
+   <p> 这个例子和前面的那个例子一样,除了可伸缩项目全部都有‘<code class=css>flex: auto</code>’属性以外.
+     第一行有60像素的空间,其他的项目都有一样的可伸缩性,所以没三个项目的行会有20px的额外的宽度,总共就是100px的宽度.
+     剩下的项目就在所在的哪行就会伸缩成一行的全部宽度,或者300px.
+    <figure> <img src="images/multiline-flex.svg"> <figcaption> 所有的渲染方法都和前面一样,除了属性是‘<code
+    class=css>flex: auto</code>’. </figcaption> </figure>
+  </div>
+</html>
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-declaration:"~/SGML/HTML4.decl"
+sgml-default-doctype-name:"html"
+sgml-minimize-attributes:t
+sgml-nofill-elements:("pre" "style" "br")
+sgml-live-element-indicator:t
+sgml-omittag:nil
+sgml-shorttag:nil
+sgml-namecase-general:t
+sgml-general-insert-case:lower
+sgml-always-quote-attributes:t
+sgml-indent-step:nil
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->
