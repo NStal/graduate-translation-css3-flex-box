@@ -358,19 +358,19 @@
    <li><a href="index.html#flex-lines"><span class=secno>6. </span> Flex Lines</a>
    <li><a href="index.html#flexibility"><span class=secno>7. </span> Flexibility</a>
     <ul class=toc>
-     <li><a href="index.html#flex-property"><span class=secno>7.1. </span> The ‘<code
-      class=property>flex</code>’ Shorthand</a>
-     <li><a href="index.html#flex-common"><span class=secno>7.2. </span> Common Values
-      of ‘<code class=property>flex</code>’</a>
-     <li><a href="index.html#flex-components"><span class=secno>7.3. </span> Components
-      of Flexibility</a>
+     <li><a href="index.html#flex-property"><span class=secno>7.1. </span> ‘<code
+      class=property>flex</code>’ 缩写</a>
+     <li><a href="index.html#flex-common"><span class=secno>7.2. </span> 
+      <code class=property>flex</code>’的常用值</a>
+     <li><a href="index.html#flex-components"><span class=secno>7.3. </span> 
+      伸缩性的组件</a>
       <ul class=toc>
-       <li><a href="index.html#flex-grow-property"><span class=secno>7.3.1. </span> The
-        ‘<code class=property>flex-grow</code>’ property</a>
+       <li><a href="index.html#flex-grow-property"><span class=secno>7.3.1. </span> 
+        ‘<code class=property>flex-grow</code>’ 属性</a>
        <li><a href="index.html#flex-shrink-property"><span class=secno>7.3.2. </span>
-        The ‘<code class=property>flex-shrink</code>’ property</a>
+        The ‘<code class=property>flex-shrink</code>’ 属性</a>
        <li><a href="index.html#flex-basis-property"><span class=secno>7.3.3. </span>
-        The ‘<code class=property>flex-basis</code>’ property</a>
+        The ‘<code class=property>flex-basis</code>’ 属性</a>
       </ul>
     </ul>
    <li><a href="index.html#alignment"><span class=secno>8. </span> Alignment</a>
@@ -1359,46 +1359,47 @@ div { flex-flow: row-reverse wrap-reverse; }
    href="index.html#flex-grow-factor"><i>flex grow factor</i></a>, or shrinks them to
    prevent overflow proportional to their <a
    href="index.html#flex-shrink-factor"><i>flex shrink factor</i></a>.
-  <h3 id=flex-property><span class=secno>7.1. </span> The ‘<a
-   href="index.html#flex"><code class=property>flex</code></a>’ Shorthand</h3>
+  <h3 id=flex-property><span class=secno>7.1. </span> '<a
+   href="index.html#flex"><code class=property>flex</code></a>’ 缩写</h3>
   <table class=propdef>
    <tbody>
     <tr>
-     <th>Name:
+     <th>名字:
      <td><dfn id=flex>flex</dfn>
     <tr>
-     <th><a href="index.html#values">Value</a>:
+     <th><a href="index.html#values">值</a>:
      <td>none | [ &lt;&apos;flex-grow&apos;> &lt;&apos;flex-shrink&apos;>? ||
       &lt;&apos;flex-basis&apos;> ]
     <tr>
-     <th>Initial:
-     <td>see individual properties
+     <th>初始:
+     <td>看每个属性相关的文档
     <tr>
-     <th>Applies to:
-     <td>flex items
+     <th>应用于:
+     <td>可伸缩项目
     <tr>
-     <th>Inherited:
-     <td>see individual properties
+     <th>继承自:
+     <td>跟据每个属性而定
     <tr>
-     <th>Computed value:
-     <td>see individual properties
+     <th>计算值:
+     <td>根据每个属性而定
     <tr>
-     <th>Media:
-     <td>visual
+     <th>媒介:
+     <td>可视化
     <tr>
-     <th>Animatable:
-     <td>see individual properties
+     <th>可以动画:
+     <td>根据每个属性而定
     <tr>
-     <th>Canonical Order:
-     <td>per grammar
+     <th> 规范:
+     <td>所有语法
   </table>
-  <p> The ‘<a href="index.html#flex"><code class=property>flex</code></a>’ property
-   specifies the components of a <dfn id=flexible-length
+  <p> The ‘<a href="index.html#flex"><code class=property>flex</code></a>’ 属性
+指定了这些组件 <dfn id=flexible-length
    title="flexible length|flexible length's">flexible length</dfn>: the <a
-   href="index.html#flex-grow-factor"><i>flex grow factor</i></a> and <a
-   href="index.html#flex-shrink-factor"><i>flex shrink factor</i></a>, and the <a
-   href="index.html#flex-basis"><i>flex basis</i></a>. When an element is a <a
-   href="index.html#flex-item"><i>flex item</i></a>, ‘<a href="index.html#flex"><code
+   href="index.html#flex-grow-factor"><i>可伸缩增长参数</i></a> 和 <a
+   href="index.html#flex-shrink-factor"><i>可伸缩收缩参数</i></a>, 和 <a
+   href="index.html#flex-basis"><i>可伸缩基准</i></a>. 当一个元素是
+ <a
+   href="index.html#flex-item"><i>可伸缩项目的时候</i></a>, ‘<a href="index.html#flex"><code
    class=property>flex</code></a>’ is consulted <em>instead of</em> the <a
    href="index.html#main-size-property"><i>main size property</i></a> to determine the
    <a href="index.html#main-size"><i>main size</i></a> of the element. If an element is

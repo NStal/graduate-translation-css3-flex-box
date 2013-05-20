@@ -1282,7 +1282,6 @@ div { flex-flow: row-reverse wrap-reverse; }
 }</pre>
    <p><small>(在未来可以用多行可伸缩容器来实现的那些甚至更智能的布局就留给读者做练习了.)</small>
   </div>
-  ====================================================
   <h2 id=flex-lines><span class=secno>6. </span> Flex Lines</h2>
   <p> 可伸缩容器可以为<a
    href="index.html#single-line"><i>单行</i></a> 或者 <a
@@ -1335,24 +1334,19 @@ div { flex-flow: row-reverse wrap-reverse; }
    href="index.html#cross-size"><i>交叉尺寸</i></a>相当于能够下没一行的 <a href="index.html#flex-item"><i>可伸缩元素</i></a>的最小尺寸
     (在根据‘<a href="index.html#align-self"><code
    class=property>align-self</code></a>’)对齐之后,而且所有的行都会在可伸缩容器内按照 ‘<a href="index.html#align-content"><code
-   class=property>align-content</code></a>’ 属性对齐. When a flex container
-   (even a <a href="index.html#multi-line"><i>多行</i></a> one) has only one
-   line, the <a href="index.html#cross-size"><i>交叉尺寸</i></a> of the line is the
-   <a href="index.html#cross-size"><i>交叉尺寸</i></a> of the flex container, and
+   class=property>align-content</code></a>’ 属性对齐. 当一个可伸缩容器的
+   (甚至是 <a href="index.html#multi-line"><i>多行</i></a>的)只有一行的时候, 
+    这行的<a href="index.html#cross-size"><i>交叉尺寸</i></a>或者这个可伸缩容器的
+   <a href="index.html#cross-size"><i>交叉尺寸</i></a> ,和 
    ‘<a href="index.html#align-content"><code
-   class=property>align-content</code></a>’ has no effect. The <a
-   href="index.html#main-size"><i>main size</i></a> of a line is always the same as the
-   <a href="index.html#main-size"><i>main size</i></a> of the flex container's content
-   box.
+   class=property>align-content</code></a>’ 属性都没有任何效果. 行的<a
+   href="index.html#main-size"><i>主尺寸</i></a>总是和可伸缩容器的内容盒子的
+   <a href="index.html#main-size"><i>主尺寸</i></a>一样.
   <div class=example>
-   <p> Here's the same example as the previous, except that the flex items
-    have all been given ‘<code class=css>flex: auto</code>’. The first
-    line has 60px of remaining space, and all of the items have the same
-    flexibility, so each of the three items on that line will receives 20px
-    of extra width, ending up 100px wide. The remaining item is on a line of
-    its own and will stretch to the entire width of the line, or 300px.
-    <figure> <img src="images/multiline-flex.svg"> <figcaption> A rendering
-    of the same as above, but with the items all given ‘<code
+   <p> 这个例子和前面的那个例子一样,除了可伸缩项目全部都有‘<code class=css>flex: auto</code>’属性以外.
+     第一行有60像素的空间,其他的项目都有一样的可伸缩性,所以没三个项目的行会有20px的额外的宽度,总共就是100px的宽度.
+     剩下的项目就在所在的哪行就会伸缩成一行的全部宽度,或者300px.
+    <figure> <img src="images/multiline-flex.svg"> <figcaption> 所有的渲染方法都和前面一样,除了属性是‘<code
     class=css>flex: auto</code>’. </figcaption> </figure>
   </div>
   =======================================------------------------------
